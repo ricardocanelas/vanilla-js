@@ -75,6 +75,7 @@
 
             let html = '<button type="button" class="close">X</button>' + this.innerHTML;
             let type = this.getAttribute('data-type');
+            let alertEl = this;
 
             this.removeAttribute('data-type');
 
@@ -83,7 +84,7 @@
             this.innerHTML = html;
 
             this.querySelector('.close').addEventListener('click', function (event) {
-                this.remove();
+                alertEl.remove();
             });
         }
 
