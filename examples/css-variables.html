@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Example - CSS Variables</title>
+    <style>
+
+        :root{
+            --padding: 10px;
+            --background: #ff8040;
+            --bordersize: 2px;
+        }
+
+        .box{
+            width: 100px;
+            height: 100px;
+            padding: var(--padding);
+            background-color: var(--background);
+            border: var(--bordersize) solid rgba(0,0,0,.3);
+        }
+
+    </style>
+
+
+</head>
+<body>
+
+<h1>CSS Variables</h1>
+
+<label>Padding: </label>
+<input name="padding" data-sizing="px" type="range" min="0" max="60"> <br/>
+
+<label>Border size: </label>
+<input name="bordersize" data-sizing="px" type="range" min="0" max="15"> <br/>
+
+<label>Background color: </label>
+<input name="background" type="color" value="#ff8040"> 
+
+<br/> <br/>
+
+<div class="box">BOX</div>
+
+<script>
+
+    const inputs = document.querySelectorAll('input');
+    
+    function onUpdate(){
+        const suffix = this.dataset.sizing || '';
+        document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
+    }
+
+    inputs.forEach(input => input.addEventListener('change', onUpdate));
+    inputs.forEach(input => input.addEventListener('mousemove', onUpdate));
+
+
+</script>
+
+</body>
+</html>
