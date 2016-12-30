@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Example - Ajax</title>
+</head>
+<body>
+
+<h1>Ajax</h1>
+
+<button id="btnGET">Get ajax_info.txt</button>
+
+<div id="result"></div>
+
+<script>
+
+    function onClick()
+    {
+        console.log("Loading: assets/ajax_info.txt");
+
+        document.getElementById("result").innerHTML = "";
+
+        var xhttp = new XMLHttpRequest();
+
+        xhttp.onload = function () {
+            if(this.readyState === 4 && this.status === 200){
+                document.getElementById("result").innerHTML = this.responseText;
+            }else{
+                document.getElementById("result").innerHTML = "Error";
+            }
+        };
+
+        xhttp.onreadystatechange = function() {
+            // readyState:
+            // 0 = unset
+            // 1 = opened 
+            // 2 = headers_received
+            // 3 = loading 
+            // 4 = done 
+
+            // status: 
+            // 200 = success
+            // 404 = not found
+            // 403 = forbidden
+            // 500 = internal error
+
+            console.log('Status: ' + this.readyState + " " + this.status);
+        };
+
+        // via GET
+        xhttp.open("GET", "assets/ajax_info.txt", true);
+        xhttp.send();
+
+        // via POST
+        // var params = "name=ricardo&lastname=canelas";
+        // xhttp.open("POST", "assets/ajax_info.txt", true);
+        // xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        // xhttp.setRequestHeader("Content-length", params.length);
+        // xhttp.setRequestHeader("Connection", "close");
+        // xhttp.send(params);
+    }
+
+    const btnGET = document.getElementById("btnGET");
+    btnGET.addEventListener("click", onClick);
+
+</script>
+
+</body>
+</html>
