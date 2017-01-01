@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Example - Canvas - Drawing</title>
+</head>
+<body>
+
+<h1>Canvas / Drawing </h1>
+<hr />
+
+<canvas id="draw" width="800" height="600"></canvas>
+
+<script>
+    const canvas = document.querySelector("#draw");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // more information: http://www.w3schools.com/tags/ref_canvas.asp
+    ctx.strokeStyle = '#BADA55';
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    ctx.lineWidth = 20;
+
+    let isDrawing = false;
+    let lastX = 0;
+    let lastY = 0;
+    let hue = 0;
+    let direction = true;
+
+    function draw(e) {
+        if (!isDrawing) return; // stop the fn from running when they are not moused down
+
+        ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY); // start from
+        ctx.lineTo(e.offsetX, e.offsetY); // go to
+        ctx.stroke();
+
+        [lastX, lastY] = [e.offsetX, e.offsetY];
+
+        if (ctx.lineWidth >= 50 || ctx.lineWidth <= 10) direction = !direction;
+
+        ctx.lineWidth = direction ? ctx.lineWidth+1 : ctx.lineWidth-1;
+
+        hue = hue >= 360 ? 0 : hue+1;
+
+        console.log(hue);
+
+    }
+
+    canvas.addEventListener('mousedown', (e) => {
+        isDrawing = true;
+        [lastX, lastY] = [e.offsetX, e.offsetY];
+    });
+
+    canvas.addEventListener('mousemove', (e) => {
+        draw(e);
+        document.body.style.cursor = 'url(assets/icon-brush.png), auto';
+    });
+    canvas.addEventListener('mouseup', () => {
+        isDrawing = false;
+        document.body.style.cursor = 'auto';
+    });
+    canvas.addEventListener('mouseout', () => {
+        isDrawing = false;
+        document.body.style.cursor = 'auto';
+    });
+
+    
+    
+</script>
+
+<style>
+    html, body{
+        margin: 0;
+    }
+
+    canvas#draw{
+        background-color: #f3f3f3;
+    }
+</style>
+
+</body>
+</html>
